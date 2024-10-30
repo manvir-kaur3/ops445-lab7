@@ -26,22 +26,40 @@ def sum_times(t1, t2):
 
     return sum_time
 
+def change_time(time, seconds):
+    time.second += seconds
+
+    # Handle seconds less than zero
+    while time.second < 0:
+        time.second += 60
+        time.minute -= 1
+
+    # Handle carry-over for seconds
+    while time.second >= 60:
+        time.second -= 60
+        time.minute += 1
+
+    # Handle minutes less than zero
+    while time.minute < 0:
+        time.minute += 60
+        time.hour -= 1
+
+    # Handle carry-over for minutes
+    while time.minute >= 60:
+        time.minute -= 60
+        time.hour += 1
+
 def format_time(t):
     """Format time in HH:MM:SS."""
     return f'{t.hour:02d}:{t.minute:02d}:{t.second:02d}'
 
 if __name__ == '__main__':
     # Example usage
-    t1 = Time(8, 0, 0)
-    t2 = Time(0, 50, 0)
-    t3 = Time(8, 55, 0)
-    td = Time(0, 50, 0)
+    time1 = Time(9, 50, 0)
+    seconds = 1800
+    change_time(time1, seconds)
+    print(format_time(time1))  # Should output '10:20:00'
 
-    tsum1 = sum_times(t1, td)
-    tsum2 = sum_times(t3, td)
-    tsum3 = sum_times(t2, td)
-
-    ft = format_time
-    print(ft(t1), '+', ft(td), '-->', ft(tsum1))
-    print(ft(t3), '+', ft(td), '-->', ft(tsum2))
-    print(ft(t2), '+', ft(td), '-->', ft(tsum3))
+    seconds = -1800
+    change_time(time1, seconds)
+    print(format_time(time1))  # Should output '09:50:00'

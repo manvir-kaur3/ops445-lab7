@@ -14,6 +14,14 @@ class Time:
         self.minute = minute
         self.second = second
 
+    def __str__(self):
+        """Return a string representation for the object self"""
+        return f'{self.hour:02d}:{self.minute:02d}:{self.second:02d}'
+
+    def __repr__(self):
+        """Return a string representation for the object self"""
+        return f'{self.hour:02d}.{self.minute:02d}.{self.second:02d}'
+
     def format_time(self):
         """Return time object as a formatted string"""
         return f'{self.hour:02d}:{self.minute:02d}:{self.second:02d}'
@@ -41,6 +49,10 @@ class Time:
         24 > hour >= 0, 60 > minute >= 0, 60 > second >= 0"""
         return 0 <= self.hour < 24 and 0 <= self.minute < 60 and 0 <= self.second < 60
 
+    def __add__(self, t2):
+        """Return the result by using sum_times() method"""
+        return self.sum_times(t2)
+
 def sec_to_time(seconds):
     """Convert a given number of seconds to a time object in hour, minute, second format."""
     time = Time()
@@ -51,10 +63,5 @@ def sec_to_time(seconds):
 # Example usage (for testing purposes):
 if __name__ == "__main__":
     t1 = Time(9, 50, 0)
-    print(t1.format_time())  # Should print '09:50:00'
-    t2 = Time(0, 30, 0)
-    summed_time = t1.sum_times(t2)
-    print(summed_time.format_time())  # Should print '10:20:00'
-    t1.change_time(1800)
-    print(t1.format_time())  # Should print '10:20:00'
-    print(t1.valid_time())   # Should print True
+    t2 = Time(1, 1, 1)
+    print(t1 + t2)  # Should print '10:51:01'
